@@ -1,5 +1,5 @@
 services:
-  openpose-test:
+  openpose-ros2:
     build: .
     network_mode: host
     ipc: host
@@ -8,6 +8,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ./fastrtps-profile.xml:/tmp/fastrtps-profile.xml
       - ./workspace:/root/workspace
+      - openpose:/root/openpose
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
@@ -23,3 +24,5 @@ services:
             - driver: nvidia
               capabilities:
               - gpu
+volumes:
+  openpose:

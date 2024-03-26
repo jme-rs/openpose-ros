@@ -1,5 +1,7 @@
 FROM nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
 
+ARG OPENPOSE_PARENT_DIR=/root
+
 WORKDIR /root
 
 # ビルド時にタイムゾーン選択に邪魔されないようにするため
@@ -32,23 +34,23 @@ RUN echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc \
 
 # openpose
 RUN apt update && apt install -y git
-WORKDIR /root/workspace
+WORKDIR ${OPENPOSE_PARENT_DIR}
 RUN git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose
-WORKDIR /root/workspace/openpose
+WORKDIR ${OPENPOSE_PARENT_DIR}/openpose
 RUN git submodule update --init --recursive --remote
 
 RUN apt-get install -y cmake-qt-gui \
     && apt-get install -y libopencv-dev
 RUN bash ./scripts/ubuntu/install_deps.sh
 
-WORKDIR /root/workspace/openpose/models/pose/body_25
+WORKDIR ${OPENPOSE_PARENT_DIR}/openpose/models/pose/body_25
 RUN wget -c https://www.dropbox.com/s/3x0xambj2rkyrap/pose_iter_584000.caffemodel
-WORKDIR /root/workspace/openpose/models/face
+WORKDIR ${OPENPOSE_PARENT_DIR}/openpose/models/face
 RUN wget -c https://www.dropbox.com/s/d08srojpvwnk252/pose_iter_116000.caffemodel
-WORKDIR /root/workspace/openpose/models/hand
+WORKDIR ${OPENPOSE_PARENT_DIR}/openpose/models/hand
 RUN wget -c https://www.dropbox.com/s/gqgsme6sgoo0zxf/pose_iter_102000.caffemodel
 
-WORKDIR /root/workspace/openpose/build
+WORKDIR ${OPENPOSE_PARENT_DIR}/openpose/build
 RUN cmake \
     -DBUILD_PYTHON=ON \
     -DDOWNLOAD_BODY_25_MODEL=OFF \
@@ -57,4 +59,4 @@ RUN cmake \
     -DUSE_CUDNN=OFF \
     .. \
     && make -j`nproc`
-RUN echo 'export PYTHONPATH="/root/workspace/openpose/build/python:$PYTHONPATH"' >> ~/.bashrc
+RUN echo 'export PYTHONPATH="/root/openpose/build/python:$PYTHONPATH"' >> ~/.bashrc
