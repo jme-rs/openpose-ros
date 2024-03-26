@@ -4,12 +4,6 @@ ubuntu22.04 + docker + cuda11.7.1 + cudnn8.5.0.96 + ros2
 
 ## prerequisites
 
-```sh
-git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose
-cd openpose/
-git submodule update --init --recursive --remote
-```
-
 ## troubleshooting
 
 ```text
@@ -26,7 +20,7 @@ v4l2-ctl --list-formats-ext
 ```
 
 ```sh
-# 一度普通にビルドしてから以下のコマンドを実行することで、pythonのラッパーがビルドされる
+# BUILD_PYTHON はなぜか GUI では ON にならない
 cmake -DBUILD_PYTHON=ON ..
 export PYTHONPATH="/root/workspace/openpose/build/python:$PYTHONPATH"
 ```
