@@ -1,0 +1,25 @@
+services:
+  openpose-test:
+    build: .
+    network_mode: host
+    ipc: host
+    tty: true
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./fastrtps-profile.xml:/tmp/fastrtps-profile.xml
+      - ./workspace:/root/workspace
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - DISPLAY=$DISPLAY
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/tmp/fastrtps-profile.xml
+    # devices:
+    #   - /dev:/dev
+    privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities:
+              - gpu
