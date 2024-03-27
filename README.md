@@ -26,5 +26,15 @@ export PYTHONPATH="/root/workspace/openpose/build/python:$PYTHONPATH"
 ```
 
 ```sh
-./build/examples/openpose/openpose.bin --video examples/media/video.avi
+./build/examples/openpose/openpose.bin --video examples/media/video.avi --net_resolution "-1x256"
+```
+
+qt でエラーが出る場合
+
+```sh
+sudo apt install libxkbcommon-x11-0
+```
+
+```sh
+sudo apt-get install libcanberra-gtk*
 ```

@@ -1,7 +1,7 @@
 import cv2
 
 # ウェブカメラのキャプチャを開始
-cap = cv2.VideoCapture(4)
+cap = cv2.VideoCapture(-1)
 
 # キャプチャがオープンしている間続ける
 while(cap.isOpened()):
