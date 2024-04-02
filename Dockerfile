@@ -63,7 +63,7 @@ RUN cmake \
     .. \
     && make -j`nproc`
 RUN echo 'export PYTHONPATH="${HOME}/openpose/build/python:$PYTHONPATH"' >> ~/.bashrc
-
 RUN apt-get install -y libcanberra-gtk*
+RUN pip3 install cv_bridge
 
 WORKDIR ${HOME}

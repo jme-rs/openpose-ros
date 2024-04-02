@@ -1,28 +1,35 @@
-import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
+from openpose import pyopenpose as op
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
 
 
 class GPUNode(Node):
-    def __init__(self):
+    def __init__(self, camera_topic="/camera", pose_topic="/pose", op_params: dict = None):
         super().__init__("gpu_node")
-        self.create_subscription(String, "/pose_image", self.sub_callback, 10)
 
-    def sub_callback(self, msg):
-        self.get_logger().info("Received: {}".format(msg))
+        self.create_subscription(String, camera_topic, self._sub_camera_callback, 10)
+        self._pose_publisher  = self.create_publisher(String, pose_topic, 10)
+        self._cv_bridge = CvBridge()
+        self._opWrapper = op.WrapperPython()
+        
+        self._opWrapper.configure(op_params)
+        self._opWrapper.start()
 
+    def _sub_camera_callback(self, image: Image):
+        self.get_logger().info("Received: /camera")
 
-def main(args=None):
-    rclpy.init(args=args)
-    gpu_node = GPUNode()
-    try:
-        rclpy.spin(gpu_node)
-    except KeyboardInterrupt:
-        pass
-    finally:
-        gpu_node.destroy_node()
-        rclpy.shutdown()
+        frame = self._cv_bridge.imgmsg_to_cv2(image)
+        key_points = self._proccess_image(frame)
+        msg = String(data=str(key_points))
 
+        self._pose_publisher.publish(msg)
+        self.get_logger().info("Published: /pose")
 
-if __name__ == "__main__":
-    main()
+    def _proccess_image(self, frame):
+        datum = op.Datum()
+        datum.cvInputData = frame
+        self._opWrapper.emplaceAndPop(op.VectorDatum([datum]))
+        return datum.poseKeypoints
+    
