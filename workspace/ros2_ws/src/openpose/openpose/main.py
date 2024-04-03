@@ -15,6 +15,7 @@ def main(args=None):
 
     rclpy.init(args=args)
     gpu_node = GPUNode(op_params=params)
+    
     try:
         rclpy.spin(gpu_node)
     except KeyboardInterrupt:
