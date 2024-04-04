@@ -3,7 +3,6 @@ from std_msgs.msg import String
 from openpose import pyopenpose as op
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-import numpy as np
 
 
 class GPUNode(Node):

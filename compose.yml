@@ -24,5 +24,10 @@ services:
             - driver: nvidia
               capabilities:
               - gpu
+    # command: /bin/bash -c "cd ~/workspace/ros2_ws \
+    #   && source /opt/ros/humble/setup.bash \
+    #   && colcon build --symlink-install \
+    #   && source ~/.bashrc \
+    #   && ros2 run gpu_node gpu_node"
 volumes:
   openpose:

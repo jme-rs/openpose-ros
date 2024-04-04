@@ -13,7 +13,6 @@ def main(args=None):
     params["net_resolution"] = f"-1x{net_width}"
     params["model_pose"] = "BODY_25"
 
-    
     try:
         rclpy.init(args=args)
         gpu_node = GPUNode(op_params=params)

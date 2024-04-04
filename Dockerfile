@@ -24,7 +24,7 @@ RUN apt update \
     ros-humble-ros-base \
     ros-dev-tools \
     python3-colcon-common-extensions
-RUN echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc \
+RUN echo '. /opt/ros/humble/setup.bash' >> ~/.bashrc \
     && echo 'export ROS_DOMAIN_ID=30 #TURTLEBOT3' >> ~/.bashrc \
     && echo "LOCAL_IP=`hostname -I | cut -d' ' -f1`" >> ~/.bashrc \
     && echo 'echo "LOCAL_IP=${LOCAL_IP}"' >> ~/.bashrc \
