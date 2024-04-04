@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'openpose'
+package_name = 'gpu_node'
 
 setup(
     name=package_name,
@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'gpu_node = openpose.main:main',
+            'gpu_node = gpu_node.main:main',
         ],
     },
 )

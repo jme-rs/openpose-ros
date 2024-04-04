@@ -13,10 +13,10 @@ def main(args=None):
     params["net_resolution"] = f"-1x{net_width}"
     params["model_pose"] = "BODY_25"
 
-    rclpy.init(args=args)
-    gpu_node = GPUNode(op_params=params)
     
     try:
+        rclpy.init(args=args)
+        gpu_node = GPUNode(op_params=params)
         rclpy.spin(gpu_node)
     except KeyboardInterrupt:
         pass
