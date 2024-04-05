@@ -32,8 +32,7 @@ RUN echo '. /opt/ros/humble/setup.bash' >> ~/.bashrc \
     && echo 'export ROS_DOMAIN_ID=33 #TURTLEBOT3' >> ~/.bashrc \
     && echo 'export ROS_LOCALHOST_ONLY=0' >> ~/.bashrc \
     && echo 'env | grep ROS' >> ~/.bashrc \
-    && echo '. ~/workspace/ros2_ws/install/setup.bash' >> ~/.bashrc \
-    && echo 'export OPENPOSE_MODEL_PATH="${HOME}/openpose/models"' >> ~/.bashrc
+    && echo '. ~/workspace/ros2_ws/install/setup.bash' >> ~/.bashrc
 
 # openpose
 RUN apt update && apt install -y git
@@ -62,8 +61,9 @@ RUN cmake \
     -DUSE_CUDNN=OFF \
     .. \
     && make -j`nproc`
-RUN echo 'export PYTHONPATH="${HOME}/openpose/build/python:$PYTHONPATH"' >> ~/.bashrc 
+RUN echo 'export PYTHONPATH="${HOME}/openpose/build/python:$PYTHONPATH"' >> ~/.bashrc \
+    && echo 'export OPENPOSE_MODEL_PATH="${HOME}/openpose/models"' >> ~/.bashrc
 RUN apt-get install -y libcanberra-gtk*
-RUN pip3 install cv_bridge
+RUN pip3 install cv_bridge setuptools==58.2.0
 
 WORKDIR ${HOME}
